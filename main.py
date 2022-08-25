@@ -43,12 +43,22 @@ def get_words():
 def get_random_color():
   return "#%06x" % random.randint(0, 0xFFFFFF)
 
+def get_gupiao():
+    gpurl = "http://hq.sinajs.cn/list=gb_tsla"
+    head = {}
+    head = {'referer': "https://finance.sina.com.cn"}
+    # print(head)
+    gprequest = requests.get(gpurl, headers=head).text
+    data = gprequest[14:-3].replace("=", ",").split(',')
+    Price = data[2]
+    return Price
+
 
 client = WeChatClient(app_id, app_secret)
 
 wm = WeChatMessage(client)
 wea, temperature, wind= get_weather()
 
-data = {"weather":{"value":wea},"temperature":{"value":temperature},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"wind":{"value":wind} ,"words":{"value":get_words() ,"color":get_random_color()}}
+data = {"weather":{"value":wea},"temperature":{"value":temperature},"love_days":{"value":get_count()},"gujia":{"value":get_gupiao()},"birthday_left":{"value":get_birthday()},"wind":{"value":wind} ,"words":{"value":get_words() ,"color":get_random_color()}}
 res = wm.send_template(user_id, template_id, data)
 print(res)
