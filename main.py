@@ -41,7 +41,7 @@ def get_words():
   return words.json()['data']['text']
 
 def get_chuanyi():
-  url = "http://d1.weather.com.cn/zs_index/101110200.html?_=1661788197500"
+  url = "http://d1.weather.com.cn/zs_index/101020100.html?_=1661788732256"
   head ={}
   params= {}
   params={'enc':'utf-8'}
