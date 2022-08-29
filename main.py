@@ -40,6 +40,19 @@ def get_words():
     return get_words()
   return words.json()['data']['text']
 
+def get_chuanyi():
+  url = "http://d1.weather.com.cn/zs_index/101020100.html?"
+  head ={}
+  params= {}
+  params={'enc':'utf-8'}
+  head = {'Referer':'http://www.weather.com.cn/','User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'}
+  res = requests.get(url,headers=head)
+  res.encoding = res.apparent_encoding
+  a = res.text[17:-11]
+  data=eval(a)
+  yf = data['ct_des_s']
+  return yf
+
 def get_random_color():
   return "#%06x" % random.randint(0, 0xFFFFFF)
 
@@ -59,6 +72,6 @@ client = WeChatClient(app_id, app_secret)
 wm = WeChatMessage(client)
 wea, temperature, wind= get_weather()
 
-data = {"weather":{"value":wea},"temperature":{"value":temperature},"love_days":{"value":get_count()},"gujia":{"value":get_gupiao()},"birthday_left":{"value":get_birthday()},"wind":{"value":wind} ,"words":{"value":get_words() ,"color":get_random_color()}}
+data = {"weather":{"value":wea},"temperature":{"value":temperature},"love_days":{"value":get_count()},"chuanyi":{"value":get_chuanyi()},"gujia":{"value":get_gupiao()},"birthday_left":{"value":get_birthday()},"wind":{"value":wind} ,"words":{"value":get_words() ,"color":get_random_color()}}
 res = wm.send_template(user_id, template_id, data)
 print(res)
